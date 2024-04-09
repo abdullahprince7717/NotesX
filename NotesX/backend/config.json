@@ -1,0 +1,16 @@
+{
+    "db": {
+        "database": "NotesX",
+        "host": "localhost",
+        "port": 5432,
+        "username": "postgres",
+        "password": "12345678",
+        "logging": false,
+        "dialect": "postgres"
+    },
+    "jwt": {
+        "secret": "abc@123"
+    },
+    "mongoConnectionString": "mongodb+srv://devabdullahali:Abdull%40h123@cluster0.pv1xjj4.mongodb.net/NotesX?retryWrites=true&w=majority&appName=Cluster0",
+    "database": "postgres"
+}
