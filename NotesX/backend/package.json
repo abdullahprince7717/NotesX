@@ -1,6 +1,6 @@
 {
   "name": "notesx",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",

@@ -34,7 +34,7 @@ function Login() {
                 password: password
             })
             if (login) {
-                dispatch(setUser(login.data.response));
+                dispatch(setUser(login?.data?.response));
                 localStorage.setItem('user', JSON.stringify(login.data.response))
                 setEmail('');
                 setPassword('');
@@ -44,13 +44,13 @@ function Login() {
                 toast('Error in logging in')
             }
         } catch (error) {
-            if (error.response.status === 403) {
-                toast(error.response.data.error)
+            if (error?.response?.status === 403) {
+                toast(error?.response?.data?.error)
                 await axios.post('http://localhost:3000/auth/verifyEmail', { email })
                 navigate('/verifyOtp')
             }
             else {
-                toast(error.message)
+                toast(error?.response?.data?.error || 'Error in logging in')
             }
             console.log('error', error)
         }

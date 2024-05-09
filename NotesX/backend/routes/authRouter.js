@@ -4,7 +4,7 @@ const authController = require('../controllers/authController');
 const mailer = require('../controllers/mailer');
 
 
-router.post('/verifyOtp', authController.verifyOtp);
+router.get('/verifyOtp', authController.verifyOtp);
 router.post('/login', authController.logIn);
 router.post('/signup', authController.signUp);
 router.post('/logout', authController.logOut);

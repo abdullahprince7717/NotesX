@@ -85,7 +85,7 @@ module.exports = {
                 }
             }
 
-            delete logInResponse.response.dataValues.password;
+            // delete logInResponse.response.dataValues.password;
 
             const token = jwt.sign(logInResponse.response.dataValues, config.jwt.secret)
             const session = await sessionModel.getSessionByUserId(

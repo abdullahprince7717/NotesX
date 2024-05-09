@@ -3,14 +3,15 @@ var router = express.Router();
 const tagController = require('../controllers/tagController');
 const middleware = require('../middleware/auth');
 
-// router.use(middleware.client);
+router.use(middleware.client);
 router.get('/', tagController.getTags);
 router.get('/:userId', tagController.getTagsByUserId);
 router.post('/', tagController.createTag);
 router.put('/update', tagController.updateTag);
-router.delete('/:tagId', tagController.deleteTag);
+router.delete('/delete/:tagId', tagController.deleteTag);
 router.post('/addTagToNote', tagController.addTagToNote);
-router.delete('/delete/:noteTagId', tagController.removeTagFromNote);
+router.put('/removeTagFromNote', tagController.removeTagFromNote);
+router.get('/getTagsByNoteId/:noteId', tagController.getTagsByNoteId);
 
 module.exports = router;
 

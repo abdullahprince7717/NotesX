@@ -6,12 +6,23 @@ module.exports = {
     createSession: async (token, userId, sessionId) => {
         try {
             if (config.database == 'postgres') {
-                return {
-                    response: await models.Session.create({
-                        session_id: sessionId,
-                        token,
+                const user = await models.Users.findOne({
+                    where: {
                         user_id: userId,
-                    }),
+                    },
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                })
+                console.log("User", user);
+
+                const createSession = await models.Session.create({
+                    session_id: sessionId,
+                    token,
+                    user_id: userId,
+                })
+                return {
+                    response: { createSession, user }
                 }
             }
             else {

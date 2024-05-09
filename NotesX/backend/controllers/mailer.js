@@ -24,7 +24,6 @@ const MailGenerator = new Mailgen({
     product: {
         name: 'Mailgen',
         link: 'https://mailgen.js/',
-        // logo: 'https://i.ibb.co/7JQG2fF/Notes-X.png'
     }
 
 });

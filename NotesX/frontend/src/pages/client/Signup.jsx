@@ -27,7 +27,7 @@ function Signup() {
                 password: password
             })
             console.log('signUp', signUp)
-            if (signUp.status === 200) {
+            if (signUp.status === 201) {
                 toast('Account Created Successfully!, Please check your email to verify OTP.')
                 localStorage.setItem('userEmail', email)
                 setEmail('');
@@ -40,7 +40,7 @@ function Signup() {
                 toast('Error in creating account')
             }
         } catch (error) {
-            toast('Error in creating account')
+            toast(error?.response?.data?.error || 'Error in creating account')
             console.log('error', error)
         }
     }

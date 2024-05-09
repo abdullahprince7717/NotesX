@@ -70,6 +70,12 @@ module.exports = {
     updateTag: async (body) => {
         try {
             const updateTag = await tagModel.updateTag(body);
+            const verifyOwner = await tagModel.verifyOwner(body.userId, body.tagId);
+            if (!verifyOwner.response) {
+                return {
+                    error: 'Only the owner of the tag can update it.'
+                }
+            }
             if (updateTag.error) {
                 return {
                     error: updateTag.error
@@ -122,12 +128,24 @@ module.exports = {
             }
         }
     },
-    removeTagFromNote: async (noteTagId) => {
+    removeTagFromNote: async (body) => {
         try {
-            const removeTagFromNote = await tagModel.removeTagFromNote(noteTagId);
+            const removeTagFromNote = await tagModel.removeTagFromNote(body);
             return {
                 response: removeTagFromNote
 
+            }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
+    getTagsByNoteId: async (noteId) => {
+        try {
+            const getTagsByNoteId = await tagModel.getTagsByNoteId(noteId);
+            return {
+                response: getTagsByNoteId.response
             }
         } catch (error) {
             return {

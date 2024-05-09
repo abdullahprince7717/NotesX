@@ -3,7 +3,6 @@ const setUser = (user) => {
         type: "LOGIN",
         payload: { userInfo: user }
     }
-
 };
 
 

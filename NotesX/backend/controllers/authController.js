@@ -54,7 +54,6 @@ module.exports = {
             const validate = await loginSchema.validateAsync(req.body)
             const serviceResponse = await authService.logIn(validate);
             if (serviceResponse.error?.errorCode === 403) {
-
                 await axios.post('http://localhost:3000/auth/verifyEmail', { email: validate.email })
                 return res.status(403).send({
                     error: serviceResponse.error?.message
@@ -65,10 +64,11 @@ module.exports = {
                     error: serviceResponse.error
                 })
             }
-            const cookies = { token: serviceResponse.response.dataValues.token }
-            const hour = 60 * 60 * 1000
+            console.log('serviceResponse', serviceResponse);
+            const cookies = { token: serviceResponse.response.createSession.dataValues.token }
+            const hours = 5 * 60 * 60 * 1000
             res.cookie("auth", cookies, {
-                maxAge: hour,
+                maxAge: hours,
                 httpOnly: true, // The cookie is only accessible by the web server not by JavaScript code. 
             })
             return res.status(200).send({

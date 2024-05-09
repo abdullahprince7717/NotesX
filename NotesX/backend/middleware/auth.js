@@ -16,13 +16,13 @@ module.exports = {
                         error: error,
                     });
                 }
-                const user = await userModel.getUserById({ userId: decoded.user_id });
-                if (user.response.dataValues.is_admin) {
-                    return res.status(403).send({
-                        error: "Admin cannot access client routes",
-                    });
-                }
-                const session = await sessionModel.getSession(req.body.userId || decoded.user_id, token);
+                // const user = await userModel.getUserById({ userId: decoded?.user_id });
+                // if (user.response.dataValues.is_admin) {
+                //     return res.status(403).send({
+                //         error: "Admin cannot access client routes",
+                //     });
+                // }
+                const session = await sessionModel.getSession(decoded?.user_id, token);
                 // console.log("session", session);
                 if (session.error || !session.response) {
                     return res.status(401).send({
@@ -32,6 +32,7 @@ module.exports = {
                 next();
             });
         } catch (error) {
+            console.log("error", error)
             return res.status(401).send({
                 error: "Invalid request or unauthorized user",
             });

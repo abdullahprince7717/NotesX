@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 
 
-function verifyOtp() {
+function VerifyOtp() {
     const [otp, setOTP] = useState(['', '', '', '', '', '']);
     const otpInputs = useRef([]);
     const email = localStorage.getItem('userEmail')
@@ -67,7 +67,7 @@ function verifyOtp() {
                 theme="light"
                 transition:Bounce
             />
-            <div className=' relative w-[80%] h-[80%] bg-gray-100 rounded-lg flex flex-col justify-center items-center'>
+            <div className='relative w-[80%] h-[80%] bg-gray-100 rounded-lg flex flex-col justify-center items-center'>
                 <b className='absolute top-5 left-7 text-3xl bg-gradient-to-r from-cyan-500 to-blue-500 inline-block text-transparent bg-clip-text '>NotesX</b>
 
                 <p className='text-3xl font-semibold mb-10'>OTP Verification</p>
@@ -87,11 +87,11 @@ function verifyOtp() {
                         />
                     ))}
                 </div>
-                <p className='mb-10'>Didn't recieve OTP? <span className='text-blue-600 underline' onClick={handleResendOtp}>Resend OTP</span></p>
+                <p className='mb-10'>Didnt recieve OTP? <span className='text-blue-600 underline' onClick={handleResendOtp}>Resend OTP</span></p>
                 <button onClick={handleVerify} className='px-14 py-5 bg-gradient-to-r from-cyan-500 to-blue-500 text-xl text-white'>Verify</button>
             </div>
         </div>
     );
-};
+}
 
-export default verifyOtp
+export default VerifyOtp

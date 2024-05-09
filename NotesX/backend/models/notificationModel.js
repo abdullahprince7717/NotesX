@@ -24,7 +24,7 @@ module.exports = {
                     notification_id: body.notificationId,
                     sender_id: body.senderId,
                     reciever_id: body.recieverId,
-                    note_id: body.note_id,
+                    note_id: body.noteId,
                     content: body.content,
                     type: body.type,
                     is_seen: false
@@ -70,7 +70,6 @@ module.exports = {
                 error: err,
             }
         }
-    }
-
+    },
 
 }

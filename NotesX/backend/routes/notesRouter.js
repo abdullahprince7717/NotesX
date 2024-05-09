@@ -4,17 +4,34 @@ const noteController = require('../controllers/noteController');
 const middleware = require('../middleware/auth');
 
 
-// router.use(middleware.client);
+router.use(middleware.client);
 router.get('/', noteController.getNotes);
 router.get('/:userId', noteController.getNotesByUserId);
 router.post('/', noteController.createNote);
 router.put('/update', noteController.updateNote);
 router.delete('/:noteId', noteController.deleteNote);
+router.get('/getCollaborators/:noteId', noteController.getAllCollaborators);
 router.post('/addCollaborator', noteController.addCollaborator);
-// router.post('/removeCollaborator', noteController.removeCollaborator);
+router.post('/removeCollaborator', noteController.removeCollaborator);
+router.patch('/pin/:noteId', noteController.pinNote);
+router.patch('/unpin/:noteId', noteController.unPinNote);
+router.patch('/archive/:noteId', noteController.archiveNote);
+router.patch('/unarchive/:noteId', noteController.unArchiveNote);
+router.patch('/trash/:noteId', noteController.trashNote);
+router.patch('/untrash/:noteId', noteController.unTrashNote);
+router.get('/getArchived/:userId', noteController.getArchivedNotes);
+router.get('/getTrashed/:userId', noteController.getTrashedNotes);
+router.get('/getPinned/:userId', noteController.getPinnedNotes);
+router.get('/getCollaboratedNotes/:userId', noteController.getCollaboratedNotes);
+router.post('/addReminder', noteController.addReminder);
+router.patch('/removeReminder/:noteId', noteController.removeReminder);
+router.get('/getReminders/:userId', noteController.getReminders);
+router.get('/getNoteVersionHistory/:noteId', noteController.getNoteVersionHistory);
+router.get('/upcomingReminders/all', noteController.getUpcomingReminders);
+// router.post('/createNoteVersion', noteController.createNoteVersion);
+
 
 module.exports = router;
-
 
 /**
  * @swagger

@@ -1,12 +1,12 @@
 const notificationService = require('../services/notificationService');
 const joi = require('joi');
+// const cron = require('node-cron');
 
 const createSchema = joi.object().keys({
     senderId: joi.string().required(),
     recieverId: joi.string().required(),
     type: joi.string().required(),
-    content: joi.string().required(),
-    note_id: joi.string().required()
+    noteId: joi.string().required()
 })
 
 const deleteSchema = joi.object().keys({
@@ -20,6 +20,20 @@ const getSchema = joi.object().keys({
 const markAsReadSchema = joi.object().keys({
     notificationId: joi.string().required(),
 })
+
+// async function handleReminderNotifications() {
+//     try {
+//         await notificationService.sendReminderNotifications();
+//     } catch (error) {
+//         console.error('Error sending reminder notifications:', error);
+//     }
+// }
+
+// // Schedule the job to run every 5 minutes (adjust as needed)
+// const job = cron.schedule('*/5 * * * *', handleReminderNotifications);
+
+// // Start the job immediately (optional)
+// job.start();
 
 
 module.exports = {

@@ -2,7 +2,8 @@
 const { models } = require('../models/index');
 const Tags = require('./mongoModels/tags')
 const NoteTag = require('./mongoModels/noteTags')
-const config = require('../config.json')
+const config = require('../config.json');
+const { verifyOwner } = require('./noteModel');
 module.exports = {
 
     createTag: async (body) => {
@@ -140,32 +141,15 @@ module.exports = {
 
     addTagToNote: async (body) => {
         try {
-            if (config.database == 'postgres') {
-                const addTagToNote = await models.Note_Tag.create({
-                    note_tag_id: body.noteTagId,
-                    note_id: body.noteId,
-                    tag_id: body.tagId
-                })
-                return {
-                    response: {
-                        response: addTagToNote,
-                        message: "Tag added to note successfully"
-                    }
-                }
+            await models.Note_Tag.create({
+                note_tag_id: body.noteTagId,
+                note_id: body.noteId,
+                tag_id: body.tagId
+            })
+            return {
+                response: "Tag added to note successfully"
             }
-            else {
-                const addTagToNote = await NoteTag.create({
-                    _id: body.noteTagId,
-                    note_id: body.noteId,
-                    tag_id: body.tagId
-                })
-                return {
-                    response: {
-                        response: addTagToNote,
-                        message: "Tag added to note successfully"
-                    }
-                }
-            }
+
         } catch (error) {
             return {
                 error: error
@@ -173,33 +157,79 @@ module.exports = {
         }
     },
 
-    removeTagFromNote: async ({ noteTagId }) => {
+    removeTagFromNote: async (body) => {
+        try {
+            await models.Note_Tag.destroy({
+                where: {
+                    note_id: body.noteId,
+                    tag_id: body.tagId
+                }
+            })
+            return {
+                response: 'Tag removed from note successfully'
+            }
+
+        } catch (err) {
+            return {
+                error: err,
+            }
+        }
+    },
+    verifyOwner: async (userId, tagId) => {
         try {
             if (config.database == 'postgres') {
-                const removeTagFromNote = await models.Note_Tag.destroy({
+                const verifyOwner = await models.Tags.findOne({
                     where: {
-                        note_tag_id: noteTagId, // note_id and tag_id
+                        tag_id: tagId,
+                        user_id: userId
                     }
                 })
                 return {
-                    response: {
-                        response: removeTagFromNote,
-                        message: 'Tag removed from note successfully'
-                    }
+                    response: verifyOwner
                 }
             }
             else {
-                const removeTagFromNote = await NoteTag.deleteOne({
-                    _id: noteTagId,
+                const verifyOwner = await Tags.findOne({
+                    _id: tagId,
+                    user_id: userId
                 })
                 return {
-                    response: {
-                        response: removeTagFromNote,
-                        message: 'Tag removed from note successfully'
-                    }
+                    response: verifyOwner
                 }
             }
-        } catch (err) {
+        }
+        catch (err) {
+            return {
+                error: err,
+            }
+        }
+    },
+    getTagsByNoteId: async ({ noteId }) => {
+        try {
+            if (config.database == 'postgres') {
+                return {
+                    response: await models.Note_Tag.findAll({
+                        where: {
+                            note_id: noteId
+                        },
+                        include: {
+                            model: models.Tags,
+                            attributes: {
+                                exclude: ['user_id', 'createdAt', 'updatedAt']
+                            }
+                        }
+                    })
+                }
+            }
+            else {
+                return {
+                    response: await NoteTag.find({
+                        note_id: noteId
+                    })
+                }
+            }
+        }
+        catch (err) {
             return {
                 error: err,
             }

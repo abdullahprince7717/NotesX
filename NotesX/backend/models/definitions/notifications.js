@@ -14,7 +14,7 @@ Notifications.init(
             allowNull: true,
         },
         content: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.STRING(990),
             allowNull: true,
         },
         is_seen: {

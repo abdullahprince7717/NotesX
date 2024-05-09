@@ -26,7 +26,8 @@ const addTagToNoteSchema = joi.object().keys({
 })
 
 const removeTagFromNoteSchema = joi.object().keys({
-    noteTagId: joi.string().required(),
+    noteId: joi.string().required(),
+    tagId: joi.string().required(),
 })
 
 module.exports = {
@@ -175,7 +176,9 @@ module.exports = {
     },
     removeTagFromNote: async (req, res) => {
         try {
-            const validate = await removeTagFromNoteSchema.validateAsync({ noteTagId: req.params.noteTagId });
+            console.log("req.body", req.body);
+            const validate = await removeTagFromNoteSchema.validateAsync(req.body);
+            console.log("validate", validate);
             const removeTagFromNote = await tagService.removeTagFromNote(validate);
             if (removeTagFromNote.error) {
                 return res.status(400).send({
@@ -192,7 +195,28 @@ module.exports = {
                 error: error
             })
         }
+    },
+
+    getTagsByNoteId: async (req, res) => {
+        try {
+            const validate = await joi.object().keys({
+                noteId: joi.string().required(),
+            }).validateAsync(req.params);
+            const getTagsByNoteId = await tagService.getTagsByNoteId(validate);
+            if (getTagsByNoteId.error) {
+                return res.status(400).send({
+                    error: getTagsByNoteId.error
+                })
+            }
+            else {
+                return res.status(200).send({
+                    response: getTagsByNoteId.response
+                })
+            }
+        } catch (error) {
+            return res.send({
+                error: error
+            })
+        }
     }
-
-
 }

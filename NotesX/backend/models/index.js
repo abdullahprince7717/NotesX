@@ -6,8 +6,9 @@ const Note_Tag = require("./definitions/noteTag");
 const Note_Collaborator = require("./definitions/noteCollaborator");
 const Session = require("./definitions/session");
 const Notifications = require("./definitions/notifications");
+const Note_Version_History = require("./definitions/noteVersionHistory");
 
-const models = { Users, Notes, Tags, Note_Tag, Note_Collaborator, Session, Notifications };
+const models = { Users, Notes, Tags, Note_Tag, Note_Collaborator, Session, Notifications, Note_Version_History };
 
 //Users-Notes 1:M
 
@@ -59,40 +60,10 @@ Notifications.belongsTo(Users, { foreignKey: 'reciever_id', onDelete: 'CASCADE' 
 Notes.hasMany(Notifications, { foreignKey: 'note_id', onDelete: 'CASCADE' });
 Notifications.belongsTo(Notes, { foreignKey: 'note_id', onDelete: 'CASCADE' });
 
+// NOTE - NOTE_VERSION_HISTORY 1: M
 
-
-// Define cascading delete hooks for all models
-
-// // Users-Notes
-// Users.addHook('beforeDestroy', async (instance, options) => {
-//     console.log(instance);
-//     await Notes.destroy({ where: { user_id: instance.id }, ...options });
-// });
-
-// // User-Tag
-// Users.addHook('beforeDestroy', async (instance, options) => {
-//     await Tags.destroy({ where: { user_id: instance.id }, ...options });
-// });
-
-// // Note-Tag
-// Notes.addHook('beforeDestroy', async (instance, options) => {
-//     await Note_Tag.destroy({ where: { note_id: instance.id }, ...options, force: false });
-// });
-
-// // USER-SESSION
-// Users.addHook('beforeDestroy', async (instance, options) => {
-//     await Session.destroy({ where: { user_id: instance.id }, ...options, force: false });
-// });
-
-// // USER-NOTE_COLLABORATOR
-// Users.addHook('beforeDestroy', async (instance, options) => {
-//     await Note_Collaborator.destroy({ where: { user_id: instance.id }, ...options, force: false });
-// });
-
-// // NOTE-NOTE_COLLABORATOR
-// Notes.addHook('beforeDestroy', async (instance, options) => {
-//     await Note_Collaborator.destroy({ where: { note_id: instance.id }, ...options, force: false });
-// });
+Notes.hasMany(Note_Version_History, { foreignKey: 'note_id', onDelete: 'CASCADE' });
+Note_Version_History.belongsTo(Notes, { foreignKey: 'note_id', onDelete: 'CASCADE' });
 
 
 const db = {};
